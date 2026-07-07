@@ -325,8 +325,8 @@ class Boss(pg.sprite.Sprite):
         引数：マスの中心座標tuple(x, y)
         """
         super().__init__()
-        self.image = pg.Surface((40, 40))  # 現時点仮の敵画像
-        self.image.fill(NAVY)  # 現時点仮の敵
+        self.image = pg.image.load("img/enemy.png").convert_alpha()
+        self.image = pg.transform.scale(self.image, (82, 82))
         self.rect = self.image.get_rect(center = coor)  # rect.centerにcoorを設定
 
 class Player(pg.sprite.Sprite):
@@ -338,8 +338,8 @@ class Player(pg.sprite.Sprite):
         引数：初期配置の中心座標tuple(x, y), GameMapのインスタンス
         """
         super().__init__()
-        self.image = pg.Surface((40, 40))  # 現時点仮のプレイヤー画像
-        self.image.fill(GREEN)  # 現時点仮のプレイヤー
+        self.image = pg.image.load("img/player.png").convert_alpha()
+        self.image = pg.transform.scale(self.image, (52, 52))
         self.rect = self.image.get_rect(center = coor)  # rect.centerにcoorを設定
         self.game_map = game_map
         self.row, self.col = self.game_map.get_id(coor[0], coor[1])  # プレイヤーのいるマスのidを取得
@@ -535,7 +535,7 @@ class BossBaseBullet(pg.sprite.Sprite):
         # 当たり判定のためにint化
         self.rect.centerx = int(self.exact_x)
         self.rect.centery = int(self.exact_y)
-
+        # 画面外判定
         if not ((self.rect.left >= x_left_outline) and (self.rect.right <= x_right_outline) and (self.rect.top >= -50) and (self.rect.bottom <= HEIGHT + 50)):
             self.kill()
 
@@ -687,7 +687,7 @@ class BossShotgunBullet(BossBaseBullet):
         breke_num = dist / self.dis
         # 中心に達したか判定
         if dist <= self.speed:
-            diff_num = 12  # 散弾の数
+            diff_num = 24  # 散弾の数
             # 散弾の発生源となるRectの作成
             shot_rect = pg.Rect(int(self.exact_x), int(self.exact_y), 10, 10)
             for i in range(diff_num):
