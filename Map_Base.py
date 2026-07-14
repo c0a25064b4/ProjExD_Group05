@@ -311,7 +311,7 @@ class Rock(pg.sprite.Sprite):
     """
     岩に関するもの
     """
-
+    
     def __init__(self, coor: tuple[int, int]):
         """
         引数：マスの中心座標tuple(x, y)
