@@ -311,14 +311,19 @@ class Rock(pg.sprite.Sprite):
     """
     岩に関するもの
     """
+
+    base_image = None  # クラスが読み込まれた時点ではNone
     
     def __init__(self, coor: tuple[int, int]):
         """
         引数：マスの中心座標tuple(x, y)
         """
         super().__init__()
-        self.image = pg.image.load(f"img/rock.png").convert_alpha()   # 現時点仮の岩画像
-        self.image = pg.transform.scale(self.image, (95, 110))
+        # 最初だけ岩を読み込む
+        if Rock.base_image is None:
+            img = pg.image.load("img/rock.png").convert_alpha()  # 現時点仮の岩画像
+            Rock.base_image = pg.transform.scale(img, (95, 110))
+        self.image = Rock.base_image
         self.rect = self.image.get_rect(center = coor)  # rect.centerにcoorを設定
 
 
@@ -531,7 +536,7 @@ class TilePlayer(pg.sprite.Sprite):
         引数2 xy：こうかとん画像の位置座標タプル
         """
         super().__init__()
-        img0 = pg.transform.rotozoom(pg.image.load(f"fig/{num}.png"), 0, 0.9)
+        img0 = pg.transform.rotozoom(pg.image.load(f"img/player.png"), 0, 0.9)
         img = pg.transform.flip(img0, True, False)  # デフォルトのこうかとん
         self.imgs = {
             (+1, 0): img,  # 右
